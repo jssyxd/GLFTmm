@@ -1,0 +1,16 @@
+[Unit]
+Description=Hyperliquid Micro-Structure Optimizer & Anti-Overfitting Daemon (xyz:SNDK)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/nautilus_cluster
+ExecStart=/opt/nautilus_cluster/venv/bin/python /opt/nautilus_cluster/micro_optimizer.py
+Restart=always
+RestartSec=5
+StandardOutput=append:/opt/nautilus_cluster/micro_optimizer.log
+StandardError=append:/opt/nautilus_cluster/micro_optimizer.log
+
+[Install]
+WantedBy=multi-user.target
