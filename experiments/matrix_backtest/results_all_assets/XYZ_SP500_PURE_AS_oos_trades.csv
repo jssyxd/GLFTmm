@@ -1,0 +1,2 @@
+tick_idx,ts_ms,side,price,size,fee,inventory,cash,pnl_mtm
+5500,1793455199,BUY,7586.4824,1.0,1.1379723599999998,1.0,-7587.62037236,-10.620372360000147

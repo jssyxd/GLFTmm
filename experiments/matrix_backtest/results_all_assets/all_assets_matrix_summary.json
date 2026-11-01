@@ -1,0 +1,938 @@
+{
+  "XYZ_NVDA": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -15.08001446661197,
+        "total_fee_paid": 0.06382912899935811,
+        "net_profit": -15.14384359561133,
+        "num_trades": 2,
+        "roundtrips": 1,
+        "win_rate": 0.0,
+        "max_drawdown": 15.045117688211974,
+        "final_inventory": 0.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -15.078051258810518,
+        "total_fee_paid": 0.06382942352470712,
+        "net_profit": -15.141880682335225,
+        "num_trades": 2,
+        "roundtrips": 1,
+        "win_rate": 0.0,
+        "max_drawdown": 15.043154480410522,
+        "final_inventory": 0.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 0.13820045553993054,
+        "total_fee_paid": 0.030783152458800183,
+        "net_profit": 0.10741730308113036,
+        "num_trades": 1,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 1.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": 0.0,
+        "total_fee_paid": 0.0,
+        "net_profit": 0.0,
+        "num_trades": 0,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 0.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": 0.0,
+        "total_fee_paid": 0.0,
+        "net_profit": 0.0,
+        "num_trades": 0,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 0.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 0.0,
+        "total_fee_paid": 0.0,
+        "net_profit": 0.0,
+        "num_trades": 0,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 0.0
+      }
+    }
+  },
+  "XYZ_XYZ100": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -5515.419033060913,
+        "total_fee_paid": 160.73173779052416,
+        "net_profit": -5676.150770851436,
+        "num_trades": 36,
+        "roundtrips": 16,
+        "win_rate": 37.5,
+        "max_drawdown": 5531.3797287767375,
+        "final_inventory": 4.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -2094.9010442742438,
+        "total_fee_paid": 22.350681035769412,
+        "net_profit": -2117.251725310013,
+        "num_trades": 5,
+        "roundtrips": 1,
+        "win_rate": 0.0,
+        "max_drawdown": 2090.86167193222,
+        "final_inventory": 3.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -3842.880039565018,
+        "total_fee_paid": 26.907271320785462,
+        "net_profit": -3869.7873108858034,
+        "num_trades": 6,
+        "roundtrips": 1,
+        "win_rate": 0.0,
+        "max_drawdown": 3844.893416536488,
+        "final_inventory": 4.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": 204.1928201883129,
+        "total_fee_paid": 171.58866205411755,
+        "net_profit": 32.60415813419536,
+        "num_trades": 40,
+        "roundtrips": 19,
+        "win_rate": 57.89473684210527,
+        "max_drawdown": 442.4186399638893,
+        "final_inventory": -2.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": 222.59485252642844,
+        "total_fee_paid": 4.301534458047671,
+        "net_profit": 218.29331806838076,
+        "num_trades": 1,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": -1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -99.80719365840923,
+        "total_fee_paid": 4.281828804728052,
+        "net_profit": -104.08902246313728,
+        "num_trades": 1,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 1.0
+      }
+    }
+  },
+  "XYZ_SP500": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -116.52895475959303,
+        "total_fee_paid": 27.509756448727913,
+        "net_profit": -144.03871120832093,
+        "num_trades": 24,
+        "roundtrips": 10,
+        "win_rate": 40.0,
+        "max_drawdown": 99.4350506331757,
+        "final_inventory": 4.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -65.31685765167822,
+        "total_fee_paid": 3.4440066609230113,
+        "net_profit": -68.76086431260123,
+        "num_trades": 3,
+        "roundtrips": 1,
+        "win_rate": 0.0,
+        "max_drawdown": 21.516514236623152,
+        "final_inventory": 1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -68.39323269180386,
+        "total_fee_paid": 8.0293750416634,
+        "net_profit": -76.42260773346726,
+        "num_trades": 7,
+        "roundtrips": 2,
+        "win_rate": 50.0,
+        "max_drawdown": 70.81546253156375,
+        "final_inventory": 3.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -6.920372360000329,
+        "total_fee_paid": 1.1379723599999998,
+        "net_profit": -8.058344720000328,
+        "num_trades": 1,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 1.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -5.818289126153104,
+        "total_fee_paid": 1.1378070723080767,
+        "net_profit": -6.95609619846118,
+        "num_trades": 1,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -2.532332322442926,
+        "total_fee_paid": 1.1373142527104596,
+        "net_profit": -3.6696465751533855,
+        "num_trades": 1,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 1.0
+      }
+    }
+  },
+  "XYZ_GOLD": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": 710.2257192227371,
+        "total_fee_paid": 17.64547814891077,
+        "net_profit": 692.5802410738263,
+        "num_trades": 29,
+        "roundtrips": 14,
+        "win_rate": 57.14285714285714,
+        "max_drawdown": 90.69277213876558,
+        "final_inventory": 1.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": 829.7635182076165,
+        "total_fee_paid": 14.037576830136267,
+        "net_profit": 815.7259413774802,
+        "num_trades": 23,
+        "roundtrips": 11,
+        "win_rate": 72.72727272727273,
+        "max_drawdown": 85.4829200580898,
+        "final_inventory": -1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 568.3621088935292,
+        "total_fee_paid": 16.9934442685333,
+        "net_profit": 551.368664624996,
+        "num_trades": 28,
+        "roundtrips": 14,
+        "win_rate": 71.42857142857143,
+        "max_drawdown": 66.63570234954932,
+        "final_inventory": 0.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": 93.96850985450874,
+        "total_fee_paid": 21.666748750535305,
+        "net_profit": 72.30176110397343,
+        "num_trades": 37,
+        "roundtrips": 16,
+        "win_rate": 62.5,
+        "max_drawdown": 34.55777534964227,
+        "final_inventory": 5.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": 51.71043567894776,
+        "total_fee_paid": 15.220071992050622,
+        "net_profit": 36.49036368689714,
+        "num_trades": 26,
+        "roundtrips": 11,
+        "win_rate": 54.54545454545454,
+        "max_drawdown": 49.26577228711403,
+        "final_inventory": 4.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -111.3886186301097,
+        "total_fee_paid": 5.27149587843854,
+        "net_profit": -116.66011450854825,
+        "num_trades": 9,
+        "roundtrips": 2,
+        "win_rate": 0.0,
+        "max_drawdown": 33.515435900091234,
+        "final_inventory": 5.0
+      }
+    }
+  },
+  "XYZ_BRENTOIL": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -11.365141083344554,
+        "total_fee_paid": 1.3398599668603304,
+        "net_profit": -12.705001050204885,
+        "num_trades": 89,
+        "roundtrips": 44,
+        "win_rate": 45.45454545454545,
+        "max_drawdown": 13.19101669730125,
+        "final_inventory": 1.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -2.792621371228549,
+        "total_fee_paid": 1.2520247938007576,
+        "net_profit": -4.044646165029306,
+        "num_trades": 83,
+        "roundtrips": 41,
+        "win_rate": 51.21951219512195,
+        "max_drawdown": 4.816338236412292,
+        "final_inventory": 1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -5.586961659440988,
+        "total_fee_paid": 1.010703337569668,
+        "net_profit": -6.597664997010655,
+        "num_trades": 67,
+        "roundtrips": 33,
+        "win_rate": 33.33333333333333,
+        "max_drawdown": 15.205961727341801,
+        "final_inventory": 1.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": 8.12844739966863,
+        "total_fee_paid": 0.6290400214481348,
+        "net_profit": 7.4994073782204955,
+        "num_trades": 37,
+        "roundtrips": 16,
+        "win_rate": 81.25,
+        "max_drawdown": 0.744796796312869,
+        "final_inventory": -5.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": 8.31834530576134,
+        "total_fee_paid": 0.6290439287997418,
+        "net_profit": 7.689301376961598,
+        "num_trades": 37,
+        "roundtrips": 16,
+        "win_rate": 81.25,
+        "max_drawdown": 0.7191278862413242,
+        "final_inventory": -5.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 4.987386753700491,
+        "total_fee_paid": 0.5605343642075112,
+        "net_profit": 4.42685238949298,
+        "num_trades": 33,
+        "roundtrips": 15,
+        "win_rate": 73.33333333333333,
+        "max_drawdown": 0.372587716367633,
+        "final_inventory": -3.0
+      }
+    }
+  },
+  "XYZ_MU": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": 366.63427523731104,
+        "total_fee_paid": 19.172293861541792,
+        "net_profit": 347.46198137576926,
+        "num_trades": 127,
+        "roundtrips": 63,
+        "win_rate": 57.14285714285714,
+        "max_drawdown": 119.2736901436424,
+        "final_inventory": -1.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": 366.6272125151826,
+        "total_fee_paid": 19.172297584880127,
+        "net_profit": 347.45491493030244,
+        "num_trades": 127,
+        "roundtrips": 63,
+        "win_rate": 57.14285714285714,
+        "max_drawdown": 119.27589778315587,
+        "final_inventory": -1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 402.90340831168396,
+        "total_fee_paid": 20.81067632010564,
+        "net_profit": 382.0927319915783,
+        "num_trades": 138,
+        "roundtrips": 67,
+        "win_rate": 52.23880597014925,
+        "max_drawdown": 87.34626448504196,
+        "final_inventory": 4.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -35.50406515970303,
+        "total_fee_paid": 13.167637248205171,
+        "net_profit": -48.6717024079082,
+        "num_trades": 98,
+        "roundtrips": 48,
+        "win_rate": 43.75,
+        "max_drawdown": 78.54462983971098,
+        "final_inventory": -2.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -35.512583953280455,
+        "total_fee_paid": 13.167635608691523,
+        "net_profit": -48.68021956197198,
+        "num_trades": 98,
+        "roundtrips": 48,
+        "win_rate": 43.75,
+        "max_drawdown": 78.54831510397025,
+        "final_inventory": -2.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -37.13690617622433,
+        "total_fee_paid": 11.419775478595376,
+        "net_profit": -48.556681654819705,
+        "num_trades": 85,
+        "roundtrips": 42,
+        "win_rate": 42.857142857142854,
+        "max_drawdown": 76.08516481381093,
+        "final_inventory": -1.0
+      }
+    }
+  },
+  "XYZ_SKHY": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -250.9770792339806,
+        "total_fee_paid": 3.3277832956111744,
+        "net_profit": -254.30486252959176,
+        "num_trades": 131,
+        "roundtrips": 63,
+        "win_rate": 41.269841269841265,
+        "max_drawdown": 252.02416534076895,
+        "final_inventory": -5.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -250.97860260638925,
+        "total_fee_paid": 3.327783260303471,
+        "net_profit": -254.30638586669272,
+        "num_trades": 131,
+        "roundtrips": 63,
+        "win_rate": 41.269841269841265,
+        "max_drawdown": 252.02533241382105,
+        "final_inventory": -5.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -253.73949003072454,
+        "total_fee_paid": 3.3707121730807263,
+        "net_profit": -257.1102022038053,
+        "num_trades": 133,
+        "roundtrips": 65,
+        "win_rate": 40.0,
+        "max_drawdown": 255.28910997670823,
+        "final_inventory": -3.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -8.610597842225616,
+        "total_fee_paid": 1.8407622487289041,
+        "net_profit": -10.45136009095452,
+        "num_trades": 81,
+        "roundtrips": 40,
+        "win_rate": 40.0,
+        "max_drawdown": 13.213761816787127,
+        "final_inventory": -1.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -8.62978487482394,
+        "total_fee_paid": 1.8407590416612305,
+        "net_profit": -10.470543916485171,
+        "num_trades": 81,
+        "roundtrips": 40,
+        "win_rate": 40.0,
+        "max_drawdown": 13.214314316307906,
+        "final_inventory": -1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -13.09554913053455,
+        "total_fee_paid": 1.9537190855543636,
+        "net_profit": -15.049268216088914,
+        "num_trades": 86,
+        "roundtrips": 42,
+        "win_rate": 38.095238095238095,
+        "max_drawdown": 13.991438356162092,
+        "final_inventory": -2.0
+      }
+    }
+  },
+  "XYZ_SNDK": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -1579.1951443011544,
+        "total_fee_paid": 43.06889639039489,
+        "net_profit": -1622.2640406915493,
+        "num_trades": 189,
+        "roundtrips": 93,
+        "win_rate": 41.935483870967744,
+        "max_drawdown": 1614.3276453735725,
+        "final_inventory": 3.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -1579.2341602548054,
+        "total_fee_paid": 43.06888468833674,
+        "net_profit": -1622.3030449431421,
+        "num_trades": 189,
+        "roundtrips": 93,
+        "win_rate": 41.935483870967744,
+        "max_drawdown": 1614.3593988122684,
+        "final_inventory": 3.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -772.3912666811752,
+        "total_fee_paid": 42.079237301269515,
+        "net_profit": -814.4705039824447,
+        "num_trades": 185,
+        "roundtrips": 91,
+        "win_rate": 40.65934065934066,
+        "max_drawdown": 1563.8644931464087,
+        "final_inventory": 3.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": 99.36920344336704,
+        "total_fee_paid": 13.77924753360148,
+        "net_profit": 85.58995590976556,
+        "num_trades": 77,
+        "roundtrips": 36,
+        "win_rate": 50.0,
+        "max_drawdown": 83.0850856629661,
+        "final_inventory": 5.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": 106.73310191450582,
+        "total_fee_paid": 13.778142488028251,
+        "net_profit": 92.95495942647757,
+        "num_trades": 77,
+        "roundtrips": 36,
+        "win_rate": 52.77777777777778,
+        "max_drawdown": 83.0871736727861,
+        "final_inventory": 5.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 48.19762640947829,
+        "total_fee_paid": 14.880913375636975,
+        "net_profit": 33.31671303384131,
+        "num_trades": 83,
+        "roundtrips": 39,
+        "win_rate": 69.23076923076923,
+        "max_drawdown": 74.72757562288302,
+        "final_inventory": 5.0
+      }
+    }
+  },
+  "XYZ_STRC": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -0.6276165826933209,
+        "total_fee_paid": 0.14874162924758247,
+        "net_profit": -0.7763582119409034,
+        "num_trades": 10,
+        "roundtrips": 5,
+        "win_rate": 20.0,
+        "max_drawdown": 0.587113775282532,
+        "final_inventory": 0.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -0.6276165826933209,
+        "total_fee_paid": 0.14874162924758247,
+        "net_profit": -0.7763582119409034,
+        "num_trades": 10,
+        "roundtrips": 5,
+        "win_rate": 20.0,
+        "max_drawdown": 0.587113775282532,
+        "final_inventory": 0.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -0.49071967794643,
+        "total_fee_paid": 0.14873509585000494,
+        "net_profit": -0.6394547737964349,
+        "num_trades": 10,
+        "roundtrips": 4,
+        "win_rate": 0.0,
+        "max_drawdown": 0.5919795359356073,
+        "final_inventory": 2.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -0.30962752685877604,
+        "total_fee_paid": 0.07417839995645274,
+        "net_profit": -0.3838059268152288,
+        "num_trades": 5,
+        "roundtrips": 2,
+        "win_rate": 0.0,
+        "max_drawdown": 0.62018650193626,
+        "final_inventory": -1.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -0.30962752685877604,
+        "total_fee_paid": 0.07417839995645274,
+        "net_profit": -0.3838059268152288,
+        "num_trades": 5,
+        "roundtrips": 2,
+        "win_rate": 0.0,
+        "max_drawdown": 0.62018650193626,
+        "final_inventory": -1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -0.17525858100889025,
+        "total_fee_paid": 0.04450615920818612,
+        "net_profit": -0.21976474021707637,
+        "num_trades": 3,
+        "roundtrips": 1,
+        "win_rate": 100.0,
+        "max_drawdown": 0.02811388140236204,
+        "final_inventory": 1.0
+      }
+    }
+  },
+  "CORE-USDT-SWAP": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": 0.004477333305101326,
+        "total_fee_paid": 0.00022959341900732953,
+        "net_profit": 0.004247739886093996,
+        "num_trades": 52,
+        "roundtrips": 25,
+        "win_rate": 52.0,
+        "max_drawdown": 0.0008019162357047888,
+        "final_inventory": 2.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": 0.004551873161004784,
+        "total_fee_paid": 0.0002480275037065015,
+        "net_profit": 0.004303845657298282,
+        "num_trades": 56,
+        "roundtrips": 27,
+        "win_rate": 48.148148148148145,
+        "max_drawdown": 0.0007074863183794688,
+        "final_inventory": 2.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 0.006058217527274937,
+        "total_fee_paid": 0.00018581412012628792,
+        "net_profit": 0.005872403407148649,
+        "num_trades": 42,
+        "roundtrips": 20,
+        "win_rate": 65.0,
+        "max_drawdown": 0.0006111063187512894,
+        "final_inventory": 2.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -0.007579878969716897,
+        "total_fee_paid": 0.0001160570634225884,
+        "net_profit": -0.0076959360331394855,
+        "num_trades": 33,
+        "roundtrips": 16,
+        "win_rate": 37.5,
+        "max_drawdown": 0.007603603199382188,
+        "final_inventory": -1.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -0.007579917777201262,
+        "total_fee_paid": 0.00011605705439814405,
+        "net_profit": -0.007695974831599406,
+        "num_trades": 33,
+        "roundtrips": 16,
+        "win_rate": 37.5,
+        "max_drawdown": 0.0076036000458951335,
+        "final_inventory": -1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -0.022178791526050977,
+        "total_fee_paid": 0.00015033072491399193,
+        "net_profit": -0.022329122250964967,
+        "num_trades": 45,
+        "roundtrips": 22,
+        "win_rate": 59.09090909090909,
+        "max_drawdown": 0.022681317905591244,
+        "final_inventory": -1.0
+      }
+    }
+  },
+  "WOO-USDT-SWAP": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -0.010059393289473355,
+        "total_fee_paid": 0.0008608218234698217,
+        "net_profit": -0.010920215112943176,
+        "num_trades": 365,
+        "roundtrips": 180,
+        "win_rate": 43.333333333333336,
+        "max_drawdown": 0.00990384323468447,
+        "final_inventory": -5.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -0.010060285537029104,
+        "total_fee_paid": 0.0008608218680332743,
+        "net_profit": -0.010921107405062379,
+        "num_trades": 365,
+        "roundtrips": 180,
+        "win_rate": 43.333333333333336,
+        "max_drawdown": 0.00990473548224022,
+        "final_inventory": -5.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -0.014581265608415675,
+        "total_fee_paid": 0.0006879750883860183,
+        "net_profit": -0.015269240696801693,
+        "num_trades": 292,
+        "roundtrips": 145,
+        "win_rate": 48.275862068965516,
+        "max_drawdown": 0.015162095005560181,
+        "final_inventory": 2.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -0.0008998236051956203,
+        "total_fee_paid": 0.0005603518517806022,
+        "net_profit": -0.0014601754569762225,
+        "num_trades": 242,
+        "roundtrips": 121,
+        "win_rate": 43.80165289256198,
+        "max_drawdown": 0.0011862926530599744,
+        "final_inventory": 0.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -0.000900706630964615,
+        "total_fee_paid": 0.0005603516335545531,
+        "net_profit": -0.0014610582645191682,
+        "num_trades": 242,
+        "roundtrips": 121,
+        "win_rate": 43.80165289256198,
+        "max_drawdown": 0.0011869149370377866,
+        "final_inventory": 0.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -0.0011626990236313084,
+        "total_fee_paid": 0.0003980657701573287,
+        "net_profit": -0.0015607647937886371,
+        "num_trades": 172,
+        "roundtrips": 84,
+        "win_rate": 39.285714285714285,
+        "max_drawdown": 0.0011329118384796506,
+        "final_inventory": -4.0
+      }
+    }
+  },
+  "CHZ-USDT-SWAP": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -0.01949585687179992,
+        "total_fee_paid": 0.001964327663627996,
+        "net_profit": -0.021460184535427914,
+        "num_trades": 738,
+        "roundtrips": 368,
+        "win_rate": 36.95652173913043,
+        "max_drawdown": 0.019824557842502866,
+        "final_inventory": 2.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -0.019499697438336242,
+        "total_fee_paid": 0.001964322904606041,
+        "net_profit": -0.021464020342942283,
+        "num_trades": 738,
+        "roundtrips": 368,
+        "win_rate": 36.95652173913043,
+        "max_drawdown": 0.01982816574301941,
+        "final_inventory": 2.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -0.018423506814560935,
+        "total_fee_paid": 0.0017648842703851066,
+        "net_profit": -0.020188391084946043,
+        "num_trades": 674,
+        "roundtrips": 336,
+        "win_rate": 36.607142857142854,
+        "max_drawdown": 0.018834654631220617,
+        "final_inventory": 2.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -9.112576146264734e-06,
+        "total_fee_paid": 0.0011317410218053007,
+        "net_profit": -0.0011408535979515655,
+        "num_trades": 476,
+        "roundtrips": 237,
+        "win_rate": 38.81856540084388,
+        "max_drawdown": 0.0014648886534263297,
+        "final_inventory": -2.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -4.496930887106301e-05,
+        "total_fee_paid": 0.0011268255371263472,
+        "net_profit": -0.0011717948459974102,
+        "num_trades": 474,
+        "roundtrips": 236,
+        "win_rate": 38.559322033898304,
+        "max_drawdown": 0.0014657694143761554,
+        "final_inventory": -2.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 0.0007053889146253559,
+        "total_fee_paid": 0.0009256534725518972,
+        "net_profit": -0.0002202645579265413,
+        "num_trades": 390,
+        "roundtrips": 193,
+        "win_rate": 42.487046632124354,
+        "max_drawdown": 0.0014913314433296493,
+        "final_inventory": 4.0
+      }
+    }
+  },
+  "LTC-USDT-SWAP": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -16.07670525972094,
+        "total_fee_paid": 7.287134613289656,
+        "net_profit": -23.363839873010594,
+        "num_trades": 677,
+        "roundtrips": 336,
+        "win_rate": 42.857142857142854,
+        "max_drawdown": 17.248816642411626,
+        "final_inventory": -5.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -10.782829937680503,
+        "total_fee_paid": 3.197847597345833,
+        "net_profit": -13.980677535026336,
+        "num_trades": 297,
+        "roundtrips": 147,
+        "win_rate": 37.41496598639456,
+        "max_drawdown": 12.228305113297637,
+        "final_inventory": -3.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -13.826949490809767,
+        "total_fee_paid": 4.016822631547974,
+        "net_profit": -17.84377212235774,
+        "num_trades": 373,
+        "roundtrips": 184,
+        "win_rate": 39.67391304347826,
+        "max_drawdown": 15.082358078563331,
+        "final_inventory": -5.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -9.831630611297946,
+        "total_fee_paid": 1.7167886784598292,
+        "net_profit": -11.548419289757776,
+        "num_trades": 159,
+        "roundtrips": 79,
+        "win_rate": 39.24050632911392,
+        "max_drawdown": 10.764578521809298,
+        "final_inventory": -1.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -9.18074464396193,
+        "total_fee_paid": 0.13928533399435894,
+        "net_profit": -9.320029977956288,
+        "num_trades": 13,
+        "roundtrips": 4,
+        "win_rate": 0.0,
+        "max_drawdown": 7.311394902361975,
+        "final_inventory": -5.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -3.915833781733312,
+        "total_fee_paid": 0.7232129742038089,
+        "net_profit": -4.639046755937121,
+        "num_trades": 67,
+        "roundtrips": 32,
+        "win_rate": 34.375,
+        "max_drawdown": 5.2739718782387754,
+        "final_inventory": 3.0
+      }
+    }
+  }
+}
