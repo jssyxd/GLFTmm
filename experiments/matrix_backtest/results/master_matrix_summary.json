@@ -1,0 +1,452 @@
+{
+  "WOO-USDT-SWAP": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -0.010059393289473355,
+        "total_fee_paid": 0.0008608218234698217,
+        "net_profit": -0.010920215112943176,
+        "num_trades": 365,
+        "roundtrips": 180,
+        "win_rate": 43.333333333333336,
+        "max_drawdown": 0.00990384323468447,
+        "final_inventory": -5.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -0.010060285537029104,
+        "total_fee_paid": 0.0008608218680332743,
+        "net_profit": -0.010921107405062379,
+        "num_trades": 365,
+        "roundtrips": 180,
+        "win_rate": 43.333333333333336,
+        "max_drawdown": 0.00990473548224022,
+        "final_inventory": -5.0
+      },
+      "AS_GLFT_HYBRID": {
+        "mode": "AS_GLFT_HYBRID",
+        "final_pnl": -0.010060707562381047,
+        "total_fee_paid": 0.0008608219524214671,
+        "net_profit": -0.010921529514802514,
+        "num_trades": 365,
+        "roundtrips": 180,
+        "win_rate": 43.333333333333336,
+        "max_drawdown": 0.009905157507592162,
+        "final_inventory": -5.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -0.014581265608415675,
+        "total_fee_paid": 0.0006879750883860183,
+        "net_profit": -0.015269240696801693,
+        "num_trades": 292,
+        "roundtrips": 145,
+        "win_rate": 48.275862068965516,
+        "max_drawdown": 0.015162095005560181,
+        "final_inventory": 2.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -0.0008998236051956203,
+        "total_fee_paid": 0.0005603518517806022,
+        "net_profit": -0.0014601754569762225,
+        "num_trades": 242,
+        "roundtrips": 121,
+        "win_rate": 43.80165289256198,
+        "max_drawdown": 0.0011862926530599744,
+        "final_inventory": 0.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -0.000900706630964615,
+        "total_fee_paid": 0.0005603516335545531,
+        "net_profit": -0.0014610582645191682,
+        "num_trades": 242,
+        "roundtrips": 121,
+        "win_rate": 43.80165289256198,
+        "max_drawdown": 0.0011869149370377866,
+        "final_inventory": 0.0
+      },
+      "AS_GLFT_HYBRID": {
+        "mode": "AS_GLFT_HYBRID",
+        "final_pnl": -0.000900706630964615,
+        "total_fee_paid": 0.0005603516335545531,
+        "net_profit": -0.0014610582645191682,
+        "num_trades": 242,
+        "roundtrips": 121,
+        "win_rate": 43.80165289256198,
+        "max_drawdown": 0.0011869149370377866,
+        "final_inventory": 0.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -0.0011626990236313084,
+        "total_fee_paid": 0.0003980657701573287,
+        "net_profit": -0.0015607647937886371,
+        "num_trades": 172,
+        "roundtrips": 84,
+        "win_rate": 39.285714285714285,
+        "max_drawdown": 0.0011329118384796506,
+        "final_inventory": -4.0
+      }
+    },
+    "stress_tests": {
+      "fee_stress": {
+        "1.0x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": -0.0011626990236313084,
+          "total_fee_paid": 0.0003980657701573287,
+          "net_profit": -0.0015607647937886371,
+          "num_trades": 172,
+          "roundtrips": 84,
+          "win_rate": 39.285714285714285,
+          "max_drawdown": 0.0011329118384796506,
+          "final_inventory": -4.0
+        },
+        "1.5x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": -0.0009846776595959991,
+          "total_fee_paid": 0.0005763886321366454,
+          "net_profit": -0.0015610662917326444,
+          "num_trades": 166,
+          "roundtrips": 81,
+          "win_rate": 49.382716049382715,
+          "max_drawdown": 0.0009826141717086609,
+          "final_inventory": -4.0
+        },
+        "2.0x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": -0.000583664963543909,
+          "total_fee_paid": 0.0007592521145005242,
+          "net_profit": -0.0013429170780444332,
+          "num_trades": 164,
+          "roundtrips": 80,
+          "win_rate": 52.5,
+          "max_drawdown": 0.0007914866916674118,
+          "final_inventory": -4.0
+        },
+        "3.0x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": -0.00029330228314954424,
+          "total_fee_paid": 0.00013870954806779426,
+          "net_profit": -0.0004320118312173385,
+          "num_trades": 20,
+          "roundtrips": 9,
+          "win_rate": 44.44444444444444,
+          "max_drawdown": 0.00036110888739146127,
+          "final_inventory": -2.0
+        }
+      },
+      "monte_carlo_500": {
+        "mean_pnl": -0.002251661381805781,
+        "std_pnl": 0.0006488990618006203,
+        "p5_var95": -0.003297302029058398,
+        "p50_median": -0.002255527935182175,
+        "p95": -0.00118850225521922,
+        "prob_positive": 0.0
+      }
+    }
+  },
+  "CORE-USDT-SWAP": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": 0.004477333305101326,
+        "total_fee_paid": 0.00022959341900732953,
+        "net_profit": 0.004247739886093996,
+        "num_trades": 52,
+        "roundtrips": 25,
+        "win_rate": 52.0,
+        "max_drawdown": 0.0008019162357047888,
+        "final_inventory": 2.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": 0.004551873161004784,
+        "total_fee_paid": 0.0002480275037065015,
+        "net_profit": 0.004303845657298282,
+        "num_trades": 56,
+        "roundtrips": 27,
+        "win_rate": 48.148148148148145,
+        "max_drawdown": 0.0007074863183794688,
+        "final_inventory": 2.0
+      },
+      "AS_GLFT_HYBRID": {
+        "mode": "AS_GLFT_HYBRID",
+        "final_pnl": 0.004551873161004784,
+        "total_fee_paid": 0.0002480275037065015,
+        "net_profit": 0.004303845657298282,
+        "num_trades": 56,
+        "roundtrips": 27,
+        "win_rate": 48.148148148148145,
+        "max_drawdown": 0.0007074863183794688,
+        "final_inventory": 2.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 0.006058217527274937,
+        "total_fee_paid": 0.00018581412012628792,
+        "net_profit": 0.005872403407148649,
+        "num_trades": 42,
+        "roundtrips": 20,
+        "win_rate": 65.0,
+        "max_drawdown": 0.0006111063187512894,
+        "final_inventory": 2.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -0.007579878969716897,
+        "total_fee_paid": 0.0001160570634225884,
+        "net_profit": -0.0076959360331394855,
+        "num_trades": 33,
+        "roundtrips": 16,
+        "win_rate": 37.5,
+        "max_drawdown": 0.007603603199382188,
+        "final_inventory": -1.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -0.007579917777201262,
+        "total_fee_paid": 0.00011605705439814405,
+        "net_profit": -0.007695974831599406,
+        "num_trades": 33,
+        "roundtrips": 16,
+        "win_rate": 37.5,
+        "max_drawdown": 0.0076036000458951335,
+        "final_inventory": -1.0
+      },
+      "AS_GLFT_HYBRID": {
+        "mode": "AS_GLFT_HYBRID",
+        "final_pnl": -0.007579917777201262,
+        "total_fee_paid": 0.00011605705439814405,
+        "net_profit": -0.007695974831599406,
+        "num_trades": 33,
+        "roundtrips": 16,
+        "win_rate": 37.5,
+        "max_drawdown": 0.0076036000458951335,
+        "final_inventory": -1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": -0.022178791526050977,
+        "total_fee_paid": 0.00015033072491399193,
+        "net_profit": -0.022329122250964967,
+        "num_trades": 45,
+        "roundtrips": 22,
+        "win_rate": 59.09090909090909,
+        "max_drawdown": 0.022681317905591244,
+        "final_inventory": -1.0
+      }
+    },
+    "stress_tests": {
+      "fee_stress": {
+        "1.0x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": -0.022178791526050977,
+          "total_fee_paid": 0.00015033072491399193,
+          "net_profit": -0.022329122250964967,
+          "num_trades": 45,
+          "roundtrips": 22,
+          "win_rate": 59.09090909090909,
+          "max_drawdown": 0.022681317905591244,
+          "final_inventory": -1.0
+        },
+        "1.5x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": -0.022253956888508,
+          "total_fee_paid": 0.00022549608737098805,
+          "net_profit": -0.02247945297587899,
+          "num_trades": 45,
+          "roundtrips": 22,
+          "win_rate": 59.09090909090909,
+          "max_drawdown": 0.022719959943692945,
+          "final_inventory": -1.0
+        },
+        "2.0x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": -0.02251796526640949,
+          "total_fee_paid": 0.00017639728660436327,
+          "net_profit": -0.022694362553013853,
+          "num_trades": 25,
+          "roundtrips": 12,
+          "win_rate": 33.33333333333333,
+          "max_drawdown": 0.022529613136738395,
+          "final_inventory": 1.0
+        },
+        "3.0x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": -2.3832132356989624e-05,
+          "total_fee_paid": 0.00018676662861252802,
+          "net_profit": -0.00021059876096951764,
+          "num_trades": 20,
+          "roundtrips": 10,
+          "win_rate": 60.0,
+          "max_drawdown": 0.00013933484403315377,
+          "final_inventory": 0.0
+        }
+      },
+      "monte_carlo_500": {
+        "mean_pnl": -0.03454735016687594,
+        "std_pnl": 0.02373687398523656,
+        "p5_var95": -0.07462456385243728,
+        "p50_median": -0.030576764948535565,
+        "p95": -0.00019036933203718482,
+        "prob_positive": 4.0
+      }
+    }
+  },
+  "XYZ_NVDA": {
+    "in_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": -0.118195390000011,
+        "total_fee_paid": 0.030795389999999995,
+        "net_profit": -0.148990780000011,
+        "num_trades": 1,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": -1.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": -0.118195390000011,
+        "total_fee_paid": 0.030795389999999995,
+        "net_profit": -0.148990780000011,
+        "num_trades": 1,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": -1.0
+      },
+      "AS_GLFT_HYBRID": {
+        "mode": "AS_GLFT_HYBRID",
+        "final_pnl": -0.118195390000011,
+        "total_fee_paid": 0.030795389999999995,
+        "net_profit": -0.148990780000011,
+        "num_trades": 1,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": -1.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 0.15873253488993555,
+        "total_fee_paid": 0.030780073108800186,
+        "net_profit": 0.12795246178113537,
+        "num_trades": 1,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 1.0
+      }
+    },
+    "out_of_sample": {
+      "PURE_AS": {
+        "mode": "PURE_AS",
+        "final_pnl": 0.0,
+        "total_fee_paid": 0.0,
+        "net_profit": 0.0,
+        "num_trades": 0,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 0.0
+      },
+      "PURE_GLFT": {
+        "mode": "PURE_GLFT",
+        "final_pnl": 0.0,
+        "total_fee_paid": 0.0,
+        "net_profit": 0.0,
+        "num_trades": 0,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 0.0
+      },
+      "AS_GLFT_HYBRID": {
+        "mode": "AS_GLFT_HYBRID",
+        "final_pnl": 0.0,
+        "total_fee_paid": 0.0,
+        "net_profit": 0.0,
+        "num_trades": 0,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 0.0
+      },
+      "DEFENSIVE_GLFT_MATRIX": {
+        "mode": "DEFENSIVE_GLFT_MATRIX",
+        "final_pnl": 0.0,
+        "total_fee_paid": 0.0,
+        "net_profit": 0.0,
+        "num_trades": 0,
+        "roundtrips": 0,
+        "win_rate": 0.0,
+        "max_drawdown": 0.0,
+        "final_inventory": 0.0
+      }
+    },
+    "stress_tests": {
+      "fee_stress": {
+        "1.0x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": 0.0,
+          "total_fee_paid": 0.0,
+          "net_profit": 0.0,
+          "num_trades": 0,
+          "roundtrips": 0,
+          "win_rate": 0.0,
+          "max_drawdown": 0.0,
+          "final_inventory": 0.0
+        },
+        "1.5x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": 0.0,
+          "total_fee_paid": 0.0,
+          "net_profit": 0.0,
+          "num_trades": 0,
+          "roundtrips": 0,
+          "win_rate": 0.0,
+          "max_drawdown": 0.0,
+          "final_inventory": 0.0
+        },
+        "2.0x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": 0.0,
+          "total_fee_paid": 0.0,
+          "net_profit": 0.0,
+          "num_trades": 0,
+          "roundtrips": 0,
+          "win_rate": 0.0,
+          "max_drawdown": 0.0,
+          "final_inventory": 0.0
+        },
+        "3.0x_fee": {
+          "mode": "DEFENSIVE_GLFT_MATRIX",
+          "final_pnl": 0.0,
+          "total_fee_paid": 0.0,
+          "net_profit": 0.0,
+          "num_trades": 0,
+          "roundtrips": 0,
+          "win_rate": 0.0,
+          "max_drawdown": 0.0,
+          "final_inventory": 0.0
+        }
+      },
+      "monte_carlo_500": {
+        "mean_pnl": -0.12085172217852408,
+        "std_pnl": 0.2554990247438678,
+        "p5_var95": -0.5585193287659933,
+        "p50_median": -0.12352648060064553,
+        "p95": 0.3147909460666425,
+        "prob_positive": 29.599999999999998
+      }
+    }
+  }
+}
