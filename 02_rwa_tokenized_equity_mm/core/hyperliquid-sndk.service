@@ -1,0 +1,16 @@
+[Unit]
+Description=Hyperliquid Live GLFT MM Bot (xyz:SNDK)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/nautilus_cluster
+ExecStart=/opt/nautilus_cluster/venv/bin/python /opt/nautilus_cluster/hyperliquid_sndk_live.py
+Restart=always
+RestartSec=5
+StandardOutput=append:/opt/nautilus_cluster/sndk_glft_live.log
+StandardError=append:/opt/nautilus_cluster/sndk_glft_live.log
+
+[Install]
+WantedBy=multi-user.target
