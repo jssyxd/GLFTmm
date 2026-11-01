@@ -112,7 +112,7 @@ class HyperliquidSNDKLiveBot:
     def get_account_inventory(self):
         req = urllib.request.Request(
             "https://api.hyperliquid.xyz/info",
-            data=json.dumps({"type": "clearinghouseState", "user": MASTER_WALLET}).encode(),
+            data=json.dumps({"type": "clearinghouseState", "user": MASTER_WALLET, "dex": "xyz"}).encode(),
             headers={"Content-Type": "application/json"}
         )
         with urllib.request.urlopen(req, timeout=5) as resp:
