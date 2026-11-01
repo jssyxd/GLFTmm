@@ -32,7 +32,8 @@ import urllib.request
 from hyperliquid.info import Info
 from hyperliquid.utils import constants
 
-USER_WALLET = "0x6c940223630beac7fdeb772d9f7a254de57b7aae"
+MASTER_WALLET = "0xAF3E93d42b56d517F055dDF64bcB4531c0B1E815"
+AGENT_API_ADDRESS = "0x2b29d7774de8cae6803e9395e137006f5e485191"
 COIN = "xyz:SNDK"
 TARGET_LEVERAGE = 10
 ORDER_NOTIONAL_USD = 10.0 # 最小名义价值 10u (10x杠杆占用 1.0u 保证金)
@@ -87,7 +88,7 @@ class HyperliquidSNDKLiveBot:
         self.last_ask_fill_time = 0.0
         self.cooldown_sec = 5.0
         self.price_history = []
-        logger.info(f"Initialized Hyperliquid Bot for {COIN} with user {USER_WALLET}")
+        logger.info(f"Initialized Hyperliquid Bot for {COIN} with user {MASTER_WALLET}")
 
     def get_market_state(self):
         req = urllib.request.Request(
@@ -111,7 +112,7 @@ class HyperliquidSNDKLiveBot:
     def get_account_inventory(self):
         req = urllib.request.Request(
             "https://api.hyperliquid.xyz/info",
-            data=json.dumps({"type": "clearinghouseState", "user": USER_WALLET}).encode(),
+            data=json.dumps({"type": "clearinghouseState", "user": MASTER_WALLET}).encode(),
             headers={"Content-Type": "application/json"}
         )
         with urllib.request.urlopen(req, timeout=5) as resp:
