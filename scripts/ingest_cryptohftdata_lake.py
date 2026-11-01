@@ -36,6 +36,10 @@ UNIVERSE_CONFIG = {
     }
 }
 
+def sanitize_symbol_for_fs(symbol: str) -> str:
+    """Windows 文件系统路径安全化 (将冒号替换为下划线)"""
+    return symbol.replace(":", "_")
+
 def download_hft_file(exchange: str, date_str: str, hour_str: str, symbol: str, data_type: str = "trades") -> bytes:
     """
     通过 REST API 下载指定小时切片的 Parquet 文件 (trades 或 orderbook)
@@ -76,12 +80,13 @@ def govern_and_store_lake(raw_bytes: bytes, exchange: str, symbol: str, date_str
     sort_col = "event_time" if "event_time" in df.columns else df.columns[0]
     df = df.sort_values(sort_col).reset_index(drop=True)
 
-    # 规范存储路径：01_raw_lake/<exchange>/<symbol>/<data_type>/YYYY-MM/
+    # 规范存储路径：01_raw_lake/<exchange>/<symbol_clean>/<data_type>/YYYY-MM/
+    clean_sym = sanitize_symbol_for_fs(symbol)
     month_str = date_str[:7]
-    target_dir = os.path.join(DATABASE_DIR, "01_raw_lake", exchange, symbol, data_type, month_str)
+    target_dir = os.path.join(DATABASE_DIR, "01_raw_lake", exchange, clean_sym, data_type, month_str)
     os.makedirs(target_dir, exist_ok=True)
     
-    filename = f"{symbol}_{data_type}_{date_str}_{hour_str}.parquet"
+    filename = f"{clean_sym}_{data_type}_{date_str}_{hour_str}.parquet"
     full_path = os.path.join(target_dir, filename)
     
     df.to_parquet(full_path, index=False, engine="pyarrow", compression="zstd")
@@ -92,7 +97,7 @@ def run_ingestion_sample(date_str: str = "2026-10-31", hour_str: str = "00"):
     print(f"=== Starting Ingestion for Date: {date_str} Hour: {hour_str} ===")
     for topic, cfg in UNIVERSE_CONFIG.items():
         ex = cfg["exchange"]
-        for sym in cfg["symbols"][:2]: # 示例先各跑前 2 个核心标的
+        for sym in cfg["symbols"][:2]: # 各跑前 2 个核心标的
             for dtype in ["trades", "orderbook"]:
                 print(f"Fetching {ex} / {sym} / {dtype}...")
                 b = download_hft_file(ex, date_str, hour_str, sym, dtype)
