@@ -551,11 +551,15 @@ class AtomicDualLegEngineV4:
 
         total_pnl = pnl_hl + pnl_okx
         total_margin = margin_hl + margin_okx
+        total_notional = (self.current_q_hl * hl_mid) + (abs(self.current_q_okx) * okx_mid)
 
         if total_margin > 0.0:
             roi_on_margin = (total_pnl / total_margin) * 100.0
-            if roi_on_margin >= self.cfg.TARGET_NET_ROI_PCT or total_pnl >= self.cfg.TARGET_FIXED_PROFIT_USD:
-                reason = f"双腿净收益达标 (净浮盈: +${total_pnl:.2f} USD, ROI: +{roi_on_margin:.2f}%)"
+            # 动态名义止盈门槛: 总持仓名义价值的 75 bps，且至少保底 TARGET_FIXED_PROFIT_USD (防小资金手续费倒挂)
+            dynamic_profit_threshold = max(self.cfg.TARGET_FIXED_PROFIT_USD, total_notional * 0.0075)
+
+            if roi_on_margin >= self.cfg.TARGET_NET_ROI_PCT or total_pnl >= dynamic_profit_threshold:
+                reason = f"双腿净收益达标 (净浮盈: +${total_pnl:.2f} USD >= ${dynamic_profit_threshold:.2f}, ROI: +{roi_on_margin:.2f}%)"
                 logger.info(f"🎯 [触发综合净利润止盈] {reason}！立即双平落袋为安！")
                 self.execute_atomic_close(reason=reason)
                 return True
