@@ -338,14 +338,10 @@ class HyperliquidHourlyTakerRefill:
 
             logger.info(f"[逐小时配额体检] 累计成交量: ${cum_vol} USDC | 已耗用: {used} | 配额上限: {cap} | 盈余: {surplus}")
 
-            # 若配额不足或盈余小于安全线，启动扩容
-            if used >= cap or surplus < self.cfg.QUOTA_SAFETY_SURPLUS:
-                deficit = max(0, used - cap)
-                target_add = max(2000.0, float(deficit + self.cfg.QUOTA_SAFETY_SURPLUS))
-                self.execute_low_friction_refill(target_add)
-            else:
-                logger.info("配额盈余充足，本次无需额外扩容。")
-                self.last_refill_time = now
+            # 仅做状态监测，不自动下单打乱账户持仓
+            if used >= cap:
+                logger.warning(f"⚠️ [配额提示] 当前配额已使用: {used}/{cap} (处于链上 10 秒 1 次写入保护)。纯 WS 保持 0 消耗推流。")
+            self.last_refill_time = now
 
 
 class AtomicDualLegEngineV3:
@@ -591,8 +587,9 @@ class AtomicDualLegEngineV3:
                     if success:
                         logger.info(f"进入 {self.cfg.COOLDOWN_AFTER_FILL_SEC} 秒流动性冷却期...")
                         time.sleep(self.cfg.COOLDOWN_AFTER_FILL_SEC)
-
-                time.sleep(1.0)
+                    else:
+                        logger.warning("交易未撮合，进入 12 秒安全冷却期以遵守链上频控窗口...")
+                        time.sleep(12.0)
 
             except Exception as e:
                 logger.error(f"主调度异常: {e}")
