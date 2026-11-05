@@ -4460,6 +4460,44 @@ graph TD
         </div>
     </div>
 
+    
+    <!-- Incremental Session 2026-11-05 -->
+    <div class="session-card" style="margin-top: 30px; border-left: 4px solid #10b981; background: #161f38; padding: 25px; border-radius: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2d3748; padding-bottom: 15px; margin-bottom: 20px;">
+            <h2 style="color: #60a5fa; margin: 0; font-size: 1.4rem;">2026-11-05 实盘量化审计、OKX 费率极性核定与 Kaggle 滚动训练架构</h2>
+            <span style="background: #047857; color: #ecfdf5; padding: 4px 12px; border-radius: 9999px; font-size: 0.85rem; font-weight: bold;">Verified Production Audit</span>
+        </div>
+
+        <div style="color: #cbd5e1; line-height: 1.7; font-size: 0.95rem;">
+            <h3 style="color: #38bdf8;">一、 VPS 双机实盘全标的交叉验证（API vs 本地系统）</h3>
+            <p>通过 VibeShell 穿透连接 VPS A（马来西亚 155.254.60.38）与 VPS B（洛杉矶 23.27.186.126），对 4 个主力标的进行了 API 账单分页与本地 NautilusTrader 运行态的全量拟合：</p>
+            <ul>
+                <li><strong>ake-bot3 (OKX: AKE-USDT-SWAP)</strong>：累计撮合 <strong>3,100 笔</strong>，成交额 <strong>$28,222.05 USDT</strong>，100% Maker，FIFO 配对胜率 50.69%（胜 1476 / 负 1020 / 平 416），盘口实现差价毛利 +$2.60 USDT；</li>
+                <li><strong>recall-dayuan (OKX: RECALL-USDT-SWAP)</strong>：API 记录 1,382 笔，本地日志记录 1,372 笔（贴合度 99.3%），成交额 $11,412.92 USDT，Maker 率 99.57%，净 PnL -$2.18 USDT；</li>
+                <li><strong>eth-alphaevolve (OKX: ETH-USDT-SWAP)</strong>：因数据转换容错空转，持仓为 0，资金保持安全；</li>
+                <li><strong>sndk (Hyperliquid: xyz:SNDK)</strong>：累计撮合 2,215 笔，成交额 $25,702.85 USDC，100% Maker，胜率 48.75%，净 PnL -$5.53 USDC，当前持仓为 0。</li>
+            </ul>
+
+            <h3 style="color: #38bdf8;">二、 重大发现：OKX 费率极性符号真相与底线价差核定</h3>
+            <p>针对“普通用户为何显示负手续费”的疑难，经核实官方文档确定：</p>
+            <div style="background: #0f172a; padding: 15px; border-radius: 6px; border: 1px solid #334155; margin: 15px 0;">
+                <code style="color: #f59e0b;">OKX API 规定：fee 字段负数代表用户扣款支出，正数代表收入/返佣。</code><br>
+                用户实际为 Lv1 普通级别，每笔被扣除 0.02% (2.0 bps) 常规 Maker 手续费，双边往返硬成本为 <strong>4.0 bps</strong>。<br>
+                因此，做市底线价差必须硬性锁定：<code>min_spread_bps &gt;= 2.5 * 4.0 = 10.0 bps</code>，杜绝频繁成交反而亏手续费的陷阱。
+            </div>
+
+            <h3 style="color: #38bdf8;">三、 架构升级：MarketRegimeSentinel 与 Kaggle 滚动训练破局方案</h3>
+            <ul>
+                <li><strong>轻量级盘口哨兵 (MarketRegimeSentinel)</strong>：上线 <code>shared/sentinel/market_regime_sentinel.py</code>，动态感知 Top-5 OBI、微观波动率与订单流不平衡，将 10.0 bps 手续费内生化为硬底线，动态调整价差倍数；</li>
+                <li><strong>微观数据聚合器 (MicroAggregator)</strong>：上线 <code>shared/aggregator/micro_aggregator.py</code>，将逐笔高频行情压缩为 1s 宽表（每日仅约 2.5MB），为 Kaggle 零配额消耗重训提供因果数据底座；</li>
+                <li><strong>Kaggle 滚动重训通道</strong>：配置 <code>kaggle_pipeline/kaggle_trainer_bridge.py</code>，借助 Token (<code>KGAT_ac40707589c873af896d44997f6c0d40</code>) 在 CPU 节点每 4 小时快速拟合到达率 $A$ 与衰减率 $\kappa$，无缝回传 VPS 热更新。</li>
+            </ul>
+
+            <h3 style="color: #38bdf8;">四、 安全与运维处置</h3>
+            <p>在 VPS A 排查并斩断了 <code>temp</code> 用户下占用 66% CPU 的恶意挖矿进程（<code>./crond</code>），系统 Load 从 4.39 骤降回 1.40 以下，彻底消除了做市报撤单的系统级延迟风险。</p>
+        </div>
+    </div>
+
     <footer>
         <p>© 2026 GLFTmm Quantitative Research Team · 遵循量化研发总宪法自动化生成与归档</p>
     </footer>
