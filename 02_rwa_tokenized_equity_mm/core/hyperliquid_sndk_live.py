@@ -396,10 +396,13 @@ class HyperliquidDualWSProductionMM:
                         self.place_order_safe(True, target_bid, sz_bid)
                     else:
                         cur_px = float(current_bid_order["limitPx"])
-                        if abs(cur_px - target_bid) > (self.min_tick * 1.5):
+                        # 讨论.md 裁决：放大死区至 5 ticks (0.5 USD)，挂单寿命未满 8 秒坚决不改单，杜绝配额泄漏
+                        now_ts = time.time()
+                        order_age = now_ts - current_bid_order.get("timestamp", now_ts)
+                        deadband = self.min_tick * 5.0
+                        if abs(cur_px - target_bid) > deadband and order_age >= 8.0:
                             self.cancel_order_safe(current_bid_order["oid"])
                             self.place_order_safe(True, target_bid, sz_bid)
-
                 if not allow_ask and current_ask_order:
                     self.cancel_order_safe(current_ask_order["oid"])
                 elif allow_ask:
@@ -407,16 +410,18 @@ class HyperliquidDualWSProductionMM:
                         self.place_order_safe(False, target_ask, sz_ask)
                     else:
                         cur_px = float(current_ask_order["limitPx"])
-                        if abs(cur_px - target_ask) > (self.min_tick * 1.5):
+                        now_ts = time.time()
+                        order_age = now_ts - current_ask_order.get("timestamp", now_ts)
+                        deadband = self.min_tick * 5.0
+                        if abs(cur_px - target_ask) > deadband and order_age >= 8.0:
                             self.cancel_order_safe(current_ask_order["oid"])
                             self.place_order_safe(False, target_ask, sz_ask)
-
                 logger.info(
                     f"Heartbeat | Mid: {mid:.1f} | Inv: {inv:.2f} | Session: {session_tag} (Mult: {spread_mult}x) | "
                     f"P_Toxic[D:{p_toxic_down:.2f}/U:{p_toxic_up:.2f}] | Orders: {len(open_orders)} | AcctVal: {acc_val:.2f} USDC"
                 )
 
-                time.sleep(1) # 毫秒级循环缩短至 1 秒
+                time.sleep(5) # 讨论.md 裁决：放宽至 5 秒轮询，压降 80% 无效改单请求
 
             except Exception as e:
                 logger.error(f"Cycle exception: {e}")
