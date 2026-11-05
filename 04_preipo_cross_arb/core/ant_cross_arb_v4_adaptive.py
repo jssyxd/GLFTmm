@@ -76,8 +76,9 @@ class EngineConfigV4:
     
     # 收益与风控红线
     TARGET_NET_ROI_PCT = 3.0            # 双腿合计净收益率 >= 3.0% (on margin) 立即止盈双平
+    TARGET_FIXED_PROFIT_USD = 1.0       # 双腿合计固定净盈利金额 >= $1.0 USD 立即止盈双平
     SINGLE_LEG_MAX_PRICE_DRIFT = 0.08   # 单腿价格偏离开仓均价 8% (8% * 10x = 80% 权益)，强制双平止损防爆仓
-    MAX_EFFECTIVE_LEVERAGE = 2.5        # 总持仓有效杠杆上限 (2.5x)，保留 75% 游隙现金抵御波动
+    MAX_EFFECTIVE_LEVERAGE = 5.0        # 总持仓有效杠杆上限提升至 5.0x，保留 50% 现金游隙抵御极端波动
     
     # 滑点与费率
     MAX_SLIPPAGE_BPS = 5.0              # 单腿最大滑点容忍
@@ -340,10 +341,10 @@ class AtomicDualLegEngineV4:
             max_allowed_notional = w_eq_bottleneck * self.cfg.MAX_EFFECTIVE_LEVERAGE
 
             if current_notional >= max_allowed_notional:
-                return False, 0.0, f"总持仓 (${current_notional:.1f}) 已达有效杠杆上限 (${max_allowed_notional:.1f}, 2.5x)，停止加仓以保留 75% 游隙"
+                return False, 0.0, f"总持仓 (${current_notional:.1f}) 已达有效杠杆上限 (${max_allowed_notional:.1f}, 5.0x)，停止加仓以保留 50% 游隙"
 
-            # 计算单笔切片: 可用短板 * 5% * 10x 杠杆
-            raw_clip_usd = w_free_bottleneck * 0.05 * self.cfg.TARGET_LEVERAGE
+            # 计算单笔切片: 可用短板 * 8% * 10x 杠杆
+            raw_clip_usd = w_free_bottleneck * 0.08 * self.cfg.TARGET_LEVERAGE
             # 严格双边约束: 最小 11.5 USD 保底，最大 1500 USD 盘口封顶
             safe_clip_usd = min(max(raw_clip_usd, self.cfg.MIN_ORDER_USD), self.cfg.MAX_LOB_DEPTH_CLIP_USD)
             target_sz_hl = round(safe_clip_usd / hl_ask, 2)
@@ -553,11 +554,11 @@ class AtomicDualLegEngineV4:
 
         if total_margin > 0.0:
             roi_on_margin = (total_pnl / total_margin) * 100.0
-            if roi_on_margin >= self.cfg.TARGET_NET_ROI_PCT:
-                logger.info(f"🎯 [触发综合净利润止盈] 双腿净浮盈: +${total_pnl:.2f} USD (ROI: +{roi_on_margin:.2f}% >= {self.cfg.TARGET_NET_ROI_PCT}%)！立即双平落袋为安！")
-                self.execute_atomic_close(reason=f"双腿净收益率 +{roi_on_margin:.2f}% >= {self.cfg.TARGET_NET_ROI_PCT}% 止盈")
+            if roi_on_margin >= self.cfg.TARGET_NET_ROI_PCT or total_pnl >= self.cfg.TARGET_FIXED_PROFIT_USD:
+                reason = f"双腿净收益达标 (净浮盈: +${total_pnl:.2f} USD, ROI: +{roi_on_margin:.2f}%)"
+                logger.info(f"🎯 [触发综合净利润止盈] {reason}！立即双平落袋为安！")
+                self.execute_atomic_close(reason=reason)
                 return True
-
         return False
 
     def _parse_hl_fill(self, hl_res: Dict[str, Any]) -> Tuple[float, float]:
