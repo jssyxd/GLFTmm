@@ -75,8 +75,7 @@ class EngineConfigV4:
     EXIT_TERMINAL_CONVERGE_BPS = 50.0   # 终极规则收敛平仓线 (S-1 修正案或上市抹平利差)
     
     # 收益与风控红线
-    TARGET_NET_ROI_PCT = 3.0            # 双腿合计净收益率 >= 3.0% (on margin) 立即止盈双平
-    TARGET_FIXED_PROFIT_USD = 1.0       # 双腿合计固定净盈利金额 >= $1.0 USD 立即止盈双平
+    TARGET_NET_ROI_PCT = 6.0            # 双腿占用保证金净收益率 >= 6.0% (对应单次基差收敛 60 bps) 立即止盈双平
     SINGLE_LEG_MAX_PRICE_DRIFT = 0.08   # 单腿价格偏离开仓均价 8% (8% * 10x = 80% 权益)，强制双平止损防爆仓
     MAX_EFFECTIVE_LEVERAGE = 5.0        # 总持仓有效杠杆上限提升至 5.0x，保留 50% 现金游隙抵御极端波动
     
@@ -555,11 +554,8 @@ class AtomicDualLegEngineV4:
 
         if total_margin > 0.0:
             roi_on_margin = (total_pnl / total_margin) * 100.0
-            # 动态名义止盈门槛: 总持仓名义价值的 75 bps，且至少保底 TARGET_FIXED_PROFIT_USD (防小资金手续费倒挂)
-            dynamic_profit_threshold = max(self.cfg.TARGET_FIXED_PROFIT_USD, total_notional * 0.0075)
-
-            if roi_on_margin >= self.cfg.TARGET_NET_ROI_PCT or total_pnl >= dynamic_profit_threshold:
-                reason = f"双腿净收益达标 (净浮盈: +${total_pnl:.2f} USD >= ${dynamic_profit_threshold:.2f}, ROI: +{roi_on_margin:.2f}%)"
+            if roi_on_margin >= self.cfg.TARGET_NET_ROI_PCT:
+                reason = f"双腿保证金净收益率达标 (+{roi_on_margin:.2f}% >= {self.cfg.TARGET_NET_ROI_PCT}%, 净浮盈: +${total_pnl:.2f} USD)"
                 logger.info(f"🎯 [触发综合净利润止盈] {reason}！立即双平落袋为安！")
                 self.execute_atomic_close(reason=reason)
                 return True
