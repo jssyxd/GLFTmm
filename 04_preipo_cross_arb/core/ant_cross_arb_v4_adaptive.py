@@ -626,9 +626,9 @@ class AtomicDualLegEngineV4:
                 now_t = time.time()
                 hl_age = now_t - self.state.hl_last_ts
                 okx_age = now_t - self.state.okx_last_ts
-                if hl_age > 2.0 or okx_age > 2.0:
+                if hl_age > 6.0 or okx_age > 2.0:
                     if tick % 15 == 0:
-                        logger.warning(f"⚠️ [行情陈旧性死区拦截] WS 推流延迟超限 (HL: {hl_age:.2f}s, OKX: {okx_age:.2f}s > 2.0s)")
+                        logger.warning(f"⚠️ [行情陈旧性死区拦截] WS 推流延迟超限 (HL: {hl_age:.2f}s > 6.0s 或 OKX: {okx_age:.2f}s > 2.0s)")
                     time.sleep(0.5)
                     continue
 
