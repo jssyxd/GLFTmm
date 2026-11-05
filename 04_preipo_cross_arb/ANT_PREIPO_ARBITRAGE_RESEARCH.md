@@ -88,3 +88,32 @@
 - **依赖安装已闭环**：`okx-2.1.2`, `lightgbm-4.7.0`, `scikit-learn-1.9.1`, `huggingface_hub-2.4.0`, `kaggle-2.2.5` 全部安装完毕；
 - **模型文件已同步**：实盘权重与元数据已于 `/opt/nautilus_cluster/ant_models` 成功生成。
 - **分支与代码同步**：已在 `GLFTmm` 创建独立分支 `tree-twin` 并推送至 GitHub 仓库。
+
+---
+
+### 六、 V2 工业级实盘引擎重构与四大整改落实
+
+针对实盘中暴发的单腿裸持（Legging Risk）与 OKX 保证金不足问题，已于 `ant_cross_arb_v2.py` 完成全面重构并在 VPS 部署热更新：
+1. **双腿原子断路器（Atomic Legging Breaker）**：
+   - 下单前必经 OKX 资金预检；
+   - 严格检验 Hyperliquid Leg 1 成交回报（status == ok 且 filled_sz > 0），若被限频、撤销或未撮合，100% 阻断 Leg 2；
+   - 若 Leg 2 发送失败，启动 50ms 紧急追平看门狗，反向市价平掉刚成交的 HL 多头，实现零裸头回滚。
+2. **动态杠杆对称（Dynamic 10x Symmetrical Leverage）**：
+   - API 动态配置 OKX 端为 10x 交叉保证金，将保证金占用从 50% 降低至 10%，彻底匹配 Hyperliquid 10x 杠杆，释放 80% 现金压力。
+3. **动态稀释敏感度与宽利差（250 bps Gate）**：
+   - 将套利门槛由 25 bps 提升至 250 bps，以覆盖 13.85B 盈亏平衡点并抵御 15.0B 稀释冲击。
+4. **资金费率净损监控（Funding Rate Gate）**：
+   - 实时计算双边 8h/1h 年化资金费利差，净支出超过 10% APR 时自动静默策略。
+5. **库存健康度与净 Delta 再平衡（Inventory Health & Delta Neutralizer）**：
+   - 实时度量双边真实仓位，计算 $q_{\text{net}} = q_{\text{HL}} \times R - (-q_{\text{OKX}})$，预防剧烈波动风险。
+
+---
+
+### 七、 关键分支与疑难攻关
+
+1. **Hyperliquid 双标的分支对比（`xyz:ANT` vs `io:ANTH`）**：
+   - `xyz:ANT`：Trade.xyz 标的，单股报价（~$115），1:1 对应 Class A 普通股，无 Rebase，流动性最好。
+   - `io:ANTH`：Entropy 标的，估值报价（1 美元 = 10 亿美元估值，当前 ~$1842 对应 $184.2B FDV）。按招股书 Fully Diluted（~16.7B 股）折合每股仅约 **$110.3**，比 `xyz:ANT` 便宜约 4.2%，套利利差更高（+14.3% vs +9.1%）。但面临全稀释股本不确定性风险。
+2. **Hyperliquid 累计请求配额封锁（30868 > 15082）根治方案**：
+   - 原理：平台硬性规则为 $\text{Total Cap} = 10000 + \text{Traded Vol (USDC)}$。
+   - 解决：策略层将 REST 暴力轮询改为 WebSocket 零消耗监听 + 动态指数退避；同时可通过高流动性标的（如 BTC/SP500）执行低滑点小额 Taker 瞬时充值配额，无需更换 DEX。
