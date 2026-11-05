@@ -282,8 +282,8 @@ class HyperliquidHourlyTakerRefill:
                 return False
 
             logger.info(f"✅ [扩容 Leg 1 成交] 买入 {filled_sz} BTC @ ${avg_px:.1f} (耗时 {elapsed_ms:.1f}ms)")
-
-            # 3. 毫秒级发送 Leg 2: 卖出平仓 (限价设置在 best_bid，reduce_only=True)
+            # STP 自成交规避硬性间隔 (保证 > 50ms 物理间隔，防止 HL L1 触发 Expire Maker)
+            time.sleep(0.06)
             logger.info(f"⚡ [扩容 Leg 2] 立即发送 BTC 平仓卖单: {filled_sz} BTC @ ${best_bid:.1f}...")
             sell_res = self.exchange_main.order(
                 self.cfg.REFILL_SYMBOL,
@@ -378,13 +378,19 @@ class AtomicDualLegEngineV3:
         logger.info(f"V3 纯 WebSocket 引擎初始化完成 | HL 地址: {hl_account} | Agent: {wallet.address}")
 
     def align_account_leverage(self):
-        """启动时自动同步 OKX 为 10x 交叉杠杆，保持 1:1 保证金占用对称"""
-        try:
-            res = self.okx.set_leverage(self.cfg.OKX_INST_ID, str(self.cfg.TARGET_LEVERAGE), mgn_mode="cross")
-            logger.info(f"OKX 杠杆配置成功 (10x 交叉保证金): {res.get('data')}")
-        except Exception as e:
-            logger.error(f"配置 OKX 杠杆异常: {e}")
-
+        """启动时强制通过 API 同步 OKX 为 10x 交叉杠杆，保持 1:1 保证金占用对称"""
+        for attempt in range(1, 4):
+            try:
+                res = self.okx.set_leverage(self.cfg.OKX_INST_ID, str(self.cfg.TARGET_LEVERAGE), mgn_mode="cross")
+                if str(res.get("code", "-1")) == "0":
+                    logger.info(f"✅ [OKX 杠杆强制初始化成功] (10x 交叉保证金模式已确认): {res.get('data')}")
+                    return
+                else:
+                    logger.warning(f"⚠️ OKX 杠杆设置第 {attempt} 次失败: {res}，1秒后重试...")
+                    time.sleep(1.0)
+            except Exception as e:
+                logger.error(f"配置 OKX 杠杆异常 (尝试 {attempt}): {e}")
+                time.sleep(1.0)
     def check_okx_margin_availability(self, required_sz: float, est_px: float) -> Tuple[bool, float, float]:
         """下单前预检 OKX 可用保证金"""
         try:
@@ -553,6 +559,17 @@ class AtomicDualLegEngineV3:
                     time.sleep(1.0)
                     continue
 
+                # 3.1 跨所 WebSocket 行情陈旧性死区 (Stale Data Gate: 任一腿超 2.0s 未更新则熔断)
+                now_t = time.time()
+                hl_age = now_t - self.state.hl_last_ts
+                okx_age = now_t - self.state.okx_last_ts
+                if hl_age > 2.0 or okx_age > 2.0:
+                    if tick % 15 == 0:
+                        logger.warning(
+                            f"⚠️ [行情陈旧性死区拦截] WS 推流延迟超限 (HL Age: {hl_age:.2f}s, OKX Age: {okx_age:.2f}s > 2.0s)，利差无效不触发！"
+                        )
+                    time.sleep(0.5)
+                    continue
                 # 4. 动态折算等价每股价差
                 okx_equiv_per_share = okx_bid * (10.0 / self.cfg.ASSUMED_SHARES_B)
                 spread_pct = (okx_equiv_per_share - hl_ask) / hl_ask * 100.0
