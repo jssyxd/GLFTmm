@@ -76,7 +76,7 @@ class EngineConfigV4:
     EXIT_TERMINAL_CONVERGE_BPS = 50.0   # 终极规则收敛平仓线 (S-1 修正案或上市抹平利差)
     
     # 收益与风控红线
-    TARGET_NET_ROI_PCT = 6.0            # 双腿占用保证金净收益率 >= 6.0% (对应单次基差收敛 60 bps) 立即止盈双平
+    TARGET_NET_ROI_PCT = 8.0            # 双腿占用保证金净收益率 >= 8.0% (对应单次基差收敛 80 bps) 立即止盈双平
     SINGLE_LEG_MAX_PRICE_DRIFT = 0.08   # 单腿价格偏离开仓均价 8% (8% * 10x = 80% 权益)，强制双平止损防爆仓
     MAX_EFFECTIVE_LEVERAGE = 5.0        # 总持仓有效杠杆上限提升至 5.0x，保留 50% 现金游隙抵御极端波动
     
@@ -839,12 +839,12 @@ class AtomicDualLegEngineV4:
 
 
 def main():
-    OKX_API_KEY = "776e25a5-be71-4c71-a183-ac8859789cfd"
-    OKX_API_SECRET = "E96F1B17DBD38ADFBD4C719E3231C124"
-    OKX_PASSPHRASE = "Auto111."
+    OKX_API_KEY = os.environ.get("OKX_API_KEY", "")
+    OKX_API_SECRET = os.environ.get("OKX_API_SECRET", "")
+    OKX_PASSPHRASE = os.environ.get("OKX_PASSPHRASE", "")
 
     HL_ACCOUNT = "0xAF3E93d42b56d517F055dDF64bcB4531c0B1E815"
-    HL_AGENT_KEY = "0xd6d4969de4b68c2180fa15e8a40d7d941ca5608b9391f18fddbfc65f8a97d585"
+    HL_AGENT_KEY = os.environ.get("HL_AGENT_KEY", "")
 
     engine = AtomicDualLegEngineV4(
         hl_account=HL_ACCOUNT,
