@@ -93,6 +93,7 @@ class EngineConfigV4:
     COOLDOWN_AFTER_FILL_SEC = 15.0      # 成交后冷却期
     SAFETY_FAILURE_COOLDOWN_SEC = 12.0  # 未撮合时 12 秒安全冷却 (遵守 10s 写入约束)
     EMERGENCY_STOP_COOLDOWN_SEC = 60.0  # 触发 8% 止损后的防震荡冷静期
+    HL_WS_MAX_SILENCE_SEC = 20.0        # HL WS 静默超时阈值，触发强制重订阅
 
 
 class SharedOrderbookState:
@@ -121,6 +122,7 @@ class DualExchangeWebSocketManager:
         self.state = state
         self.hl_info = hl_info
         self.okx_inst_id = okx_inst_id
+        self.hl_max_silence_sec = EngineConfigV4.HL_WS_MAX_SILENCE_SEC
         self._threads = []
 
     def start(self):
@@ -151,13 +153,32 @@ class DualExchangeWebSocketManager:
             except Exception as e:
                 logger.error(f"HL WS 解析异常: {e}")
 
-        try:
-            sub_id = self.hl_info.subscribe({"type": "l2Book", "coin": "xyz:ANT"}, on_book_update)
-            logger.info(f"Hyperliquid xyz:ANT L2Book 订阅成功 (Sub ID: {sub_id})")
-            while self.state.running:
+        sub_id = None
+        while self.state.running:
+            try:
+                if sub_id is None:
+                    sub_id = self.hl_info.subscribe({"type": "l2Book", "coin": "xyz:ANT"}, on_book_update)
+                    self.state.hl_last_ts = time.time()
+                    logger.info(f"Hyperliquid xyz:ANT L2Book 订阅成功 (Sub ID: {sub_id})")
+                    time.sleep(1.0)
+                    continue
+
+                # 静默看门狗: HL 服务端会发送 code 1000 "Expired - goodbye" 主动断开，SDK 不自动重连
+                silence = time.time() - self.state.hl_last_ts
+                if silence > self.hl_max_silence_sec:
+                    logger.warning(f"HL WS 静默 {silence:.1f}s 超过阈值 {self.hl_max_silence_sec}s，强制断开并重订阅")
+                    try:
+                        self.hl_info.disconnect_websocket()
+                    except Exception:
+                        pass
+                    sub_id = None
+                    time.sleep(1.5)
+                    continue
                 time.sleep(1.0)
-        except Exception as e:
-            logger.error(f"Hyperliquid WS 崩溃: {e}")
+            except Exception as e:
+                logger.error(f"Hyperliquid WS 异常，2 秒后重订阅: {e}")
+                sub_id = None
+                time.sleep(2.0)
 
     def _run_okx_ws_thread(self):
         loop = asyncio.new_event_loop()
