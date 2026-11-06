@@ -1,0 +1,16 @@
+[Unit]
+Description=ANT Cross-Venue Real Arbitrage Live Bot (Hyperliquid vs OKX)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/nautilus_cluster/ant_arb
+ExecStart=/opt/nautilus_cluster/venv/bin/python /opt/nautilus_cluster/ant_arb/ant_cross_arb_service.py
+Restart=always
+RestartSec=5
+StandardOutput=append:/opt/nautilus_cluster/ant_arb/ant_arb.log
+StandardError=append:/opt/nautilus_cluster/ant_arb/ant_arb.err
+
+[Install]
+WantedBy=multi-user.target

@@ -38,6 +38,7 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] [%(name)s] %(message)s"
 )
 logger = logging.getLogger("ANT-Arb-V4-Adaptive")
+ENGINE_HL_SYMBOL = "xyz:ANT"
 
 sys.path.insert(0, "/opt/nautilus_cluster/shared")
 try:
@@ -143,48 +144,47 @@ class DualExchangeWebSocketManager:
         logger.info("双所纯 WebSocket 监听中继器已成功启动！")
 
     def _run_hl_ws(self):
-        def on_book_update(msg):
-            try:
-                data = msg.get("data", {})
-                levels = data.get("levels", [[], []])
-                bids = levels[0]
-                asks = levels[1]
-                if bids and asks:
-                    self.state.hl_bid_px = float(bids[0]["px"])
-                    self.state.hl_bid_sz = float(bids[0]["sz"])
-                    self.state.hl_ask_px = float(asks[0]["px"])
-                    self.state.hl_ask_sz = float(asks[0]["sz"])
-                    self.state.hl_last_ts = time.time()
-                    self.state.hl_updates += 1
-            except Exception as e:
-                logger.error(f"HL WS 解析异常: {e}")
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(self._hl_ws_coro())
 
-        sub_id = None
+    async def _hl_ws_coro(self):
+        url = "wss://api.hyperliquid.xyz/ws"
         while self.state.running:
             try:
-                if sub_id is None:
-                    sub_id = self.hl_info.subscribe({"type": "l2Book", "coin": "xyz:ANT"}, on_book_update)
+                async with websockets.connect(url, ping_interval=20, ping_timeout=10) as ws:
+                    await ws.send(json.dumps({
+                        "method": "subscribe",
+                        "subscription": {"type": "l2Book", "coin": ENGINE_HL_SYMBOL}
+                    }))
                     self.state.hl_last_ts = time.time()
-                    logger.info(f"Hyperliquid xyz:ANT L2Book 订阅成功 (Sub ID: {sub_id})")
-                    time.sleep(1.0)
-                    continue
-
-                # 静默看门狗: HL 服务端会发送 code 1000 "Expired - goodbye" 主动断开，SDK 不自动重连
-                silence = time.time() - self.state.hl_last_ts
-                if silence > self.hl_max_silence_sec:
-                    logger.warning(f"HL WS 静默 {silence:.1f}s 超过阈值 {self.hl_max_silence_sec}s，强制断开并重订阅")
-                    try:
-                        self.hl_info.disconnect_websocket()
-                    except Exception:
-                        pass
-                    sub_id = None
-                    time.sleep(1.5)
-                    continue
-                time.sleep(1.0)
+                    logger.info("Hyperliquid " + ENGINE_HL_SYMBOL + " L2Book 订阅成功 (原生 WS)")
+                    while self.state.running:
+                        try:
+                            raw = await asyncio.wait_for(ws.recv(), timeout=30.0)
+                        except asyncio.TimeoutError:
+                            await ws.send(json.dumps({"method": "ping"}))
+                            continue
+                        if raw in ("pong", "{}"):
+                            continue
+                        msg = json.loads(raw)
+                        if msg.get("channel") != "l2Book":
+                            continue
+                        data = msg.get("data") or {}
+                        if not isinstance(data, dict):
+                            continue
+                        levels = data.get("levels") or [[], []]
+                        if len(levels) < 2 or not levels[0] or not levels[1]:
+                            continue
+                        self.state.hl_bid_px = float(levels[0][0]["px"])
+                        self.state.hl_bid_sz = float(levels[0][0]["sz"])
+                        self.state.hl_ask_px = float(levels[1][0]["px"])
+                        self.state.hl_ask_sz = float(levels[1][0]["sz"])
+                        self.state.hl_last_ts = time.time()
+                        self.state.hl_updates += 1
             except Exception as e:
-                logger.error(f"Hyperliquid WS 异常，2 秒后重订阅: {e}")
-                sub_id = None
-                time.sleep(2.0)
+                logger.warning(f"HL WS 断开，2 秒后重连: {e}")
+                await asyncio.sleep(2.0)
 
     def _run_okx_ws_thread(self):
         loop = asyncio.new_event_loop()
