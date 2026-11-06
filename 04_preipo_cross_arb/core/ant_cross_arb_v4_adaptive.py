@@ -95,6 +95,12 @@ class EngineConfigV4:
     EMERGENCY_STOP_COOLDOWN_SEC = 60.0  # 触发 8% 止损后的防震荡冷静期
     HL_WS_MAX_SILENCE_SEC = 20.0        # HL WS 静默超时阈值，触发强制重订阅
 
+    # 隐含股本 S 监控 (S = OKX 价 * 10 / HL 价，单位十亿股)
+    IMPLIED_S_ALERT_B = 14.00           # 超过此值仅告警，市场在调高股本预期
+    MAX_ENTRY_IMPLIED_S_B = 14.00       # 开仓上限，S 高于此值只平不开
+    IMPLIED_S_DELEVER_B = 14.50         # 超过此值强制减半仓
+    IMPLIED_S_HARD_LIMIT_B = 15.20      # 超过此值全平离场
+
 
 class SharedOrderbookState:
     """双所内存共享盘口与状态缓存 (由 WebSocket 纯异步更新)"""
@@ -491,6 +497,68 @@ class AtomicDualLegEngineV4:
             return True
         return False
 
+    def compute_implied_s(self, hl_px: float, okx_px: float) -> float:
+        """市场隐含流通股本 S (十亿股)。S = OKX 价 * 10B / HL 价"""
+        if hl_px <= 0 or okx_px <= 0:
+            return 0.0
+        return okx_px * 10.0 / hl_px
+
+    def compute_breakeven_s(self) -> float:
+        """当前持仓的盈亏平衡股本。S_be = OKX 开仓价 * 10B / HL 开仓价"""
+        if self.hl_entry_px <= 0 or self.okx_entry_px <= 0:
+            return 0.0
+        return self.okx_entry_px * 10.0 / self.hl_entry_px
+
+    def execute_atomic_deleverage(self, fraction: float, reason: str) -> bool:
+        """按比例削减双腿仓位，保持对冲比率。fraction=0.5 表示各减一半"""
+        q_hl, q_okx, _ = self.get_real_positions()
+        hl_cut = math.floor(q_hl * fraction * 100) / 100.0
+        okx_cut = math.floor(abs(q_okx) * fraction * 1000) / 1000.0
+        if hl_cut <= 0 or okx_cut <= 0:
+            logger.info(f"减仓量不足最小下单单位 (HL {hl_cut}, OKX {okx_cut})，跳过。")
+            return False
+
+        logger.warning(f"✂️ [执行减仓 {fraction:.0%}] 原因: {reason} | 削减 HL {hl_cut:.2f} 股, OKX {okx_cut:.3f} 张")
+
+        hl_ok = False
+        try:
+            hl_bid = self.state.hl_bid_px
+            px = round(hl_bid * (1.0 - 0.005), 2) if hl_bid > 0 else None
+            res = self.hl_exchange.order(
+                self.cfg.HL_SYMBOL, False, hl_cut, px,
+                {"limit": {"tif": "Ioc"}}, reduce_only=True
+            )
+            logger.info(f"HL 减仓回报: {res}")
+            filled, _ = self._parse_hl_fill(res)
+            hl_ok = filled > 0.0
+            if not hl_ok:
+                logger.warning("HL 减仓未成交，等待 11 秒重试...")
+                time.sleep(11.0)
+                res2 = self.hl_exchange.order(
+                    self.cfg.HL_SYMBOL, False, hl_cut, px,
+                    {"limit": {"tif": "Ioc"}}, reduce_only=True
+                )
+                logger.info(f"HL 减仓重试回报: {res2}")
+                filled, _ = self._parse_hl_fill(res2)
+                hl_ok = filled > 0.0
+        except Exception as e:
+            logger.error(f"HL 减仓异常: {e}")
+
+        okx_ok = False
+        try:
+            res_okx = self.okx.place_order(
+                inst_id=self.cfg.OKX_INST_ID, td_mode="cross",
+                side="buy", ord_type="market", sz=str(okx_cut)
+            )
+            logger.info(f"OKX 减仓回报: {res_okx}")
+            okx_ok = str(res_okx.get("code", "-1")) == "0"
+        except Exception as e:
+            logger.error(f"OKX 减仓异常: {e}")
+
+        self.get_real_positions()
+        logger.info(f"✂️ [减仓结果] HL {'成功' if hl_ok else '失败'}, OKX {'成功' if okx_ok else '失败'}")
+        return hl_ok and okx_ok
+
     def reconcile_orphan_position(self, q_hl: float, q_okx: float) -> bool:
         """
         孤儿仓位监控与自动清理器:
@@ -693,13 +761,43 @@ class AtomicDualLegEngineV4:
                 okx_equiv_ask = okx_ask * (10.0 / self.cfg.ASSUMED_SHARES_B)
                 close_spread_bps = ((okx_equiv_ask - hl_bid) / hl_bid) * 10000.0 + 6.0
 
+                # 3.3 隐含股本 S 与持仓盈亏平衡股本
+                implied_s = self.compute_implied_s((hl_bid + hl_ask) / 2.0, (okx_bid + okx_ask) / 2.0)
+                be_s = self.compute_breakeven_s()
+
                 # 4. 心跳打印
                 if tick % 15 == 0:
-                    implied_shares = okx_bid * 10.0 / hl_ask
+                    s_gap = (implied_s - be_s) / be_s * 100.0 if be_s > 0 else 0.0
                     logger.info(
-                        f"[WS Heartbeat #{tick}] HL Ask: ${hl_ask:.2f} | OKX Bid: ${okx_bid:.2f} (折合: ${okx_equiv_bid:.2f}) | "
-                        f"开仓利差: {open_spread_bps:+.1f} bps | 平仓反向利差: {close_spread_bps:+.1f} bps | 隐含股本: {implied_shares:.2f}B"
+                        f"[WS Heartbeat #{tick}] HL: ${hl_bid:.2f}/${hl_ask:.2f} | OKX: ${okx_bid:.2f}/${okx_ask:.2f} | "
+                        f"开仓利差: {open_spread_bps:+.1f} bps | 平仓反向利差: {close_spread_bps:+.1f} bps | "
+                        f"隐含S: {implied_s:.2f}B | 保本S: {be_s:.2f}B (差 {s_gap:+.1f}%)"
                     )
+
+                # 4.1 隐含股本 S 断路器
+                if self.current_q_hl > 0.05 and abs(self.current_q_okx) > 0.005 and implied_s > 0:
+                    if implied_s >= self.cfg.IMPLIED_S_HARD_LIMIT_B:
+                        logger.critical(
+                            f"🚨 [隐含股本硬熔断] S={implied_s:.2f}B >= {self.cfg.IMPLIED_S_HARD_LIMIT_B}B，"
+                            f"收敛终点已远超保本线 {be_s:.2f}B，立即全平离场！"
+                        )
+                        if self.execute_atomic_close(reason=f"隐含股本 {implied_s:.2f}B 破硬上限"):
+                            time.sleep(self.cfg.COOLDOWN_AFTER_FILL_SEC)
+                            continue
+                    elif implied_s >= self.cfg.IMPLIED_S_DELEVER_B:
+                        logger.warning(
+                            f"✂️ [隐含股本减仓] S={implied_s:.2f}B >= {self.cfg.IMPLIED_S_DELEVER_B}B，"
+                            f"保本线 {be_s:.2f}B，强制减半仓"
+                        )
+                        if self.execute_atomic_deleverage(0.5, f"隐含股本 {implied_s:.2f}B 破减仓线"):
+                            time.sleep(self.cfg.COOLDOWN_AFTER_FILL_SEC)
+                            continue
+                    elif implied_s >= self.cfg.IMPLIED_S_ALERT_B and tick % 60 == 0:
+                        logger.warning(
+                            f"⚠️ [隐含股本告警] S={implied_s:.2f}B >= {self.cfg.IMPLIED_S_ALERT_B}B，"
+                            f"距保本线 {be_s:.2f}B 仅 {(implied_s - be_s) / be_s * 100:.1f}%，收敛利润正在被侵蚀"
+                        )
+
 
                 # 5. 状态机动作判断
                 # 5.1 检查是否满足平仓条件 (持仓中且利差收窄)
@@ -714,6 +812,13 @@ class AtomicDualLegEngineV4:
 
                 # 5.2 检查是否满足开仓/加仓条件
                 if open_spread_bps >= self.cfg.ENTRY_SPREAD_BPS:
+                    if implied_s >= self.cfg.MAX_ENTRY_IMPLIED_S_B:
+                        if tick % 15 == 0:
+                            logger.info(
+                                f"开仓门禁被 S 上限拦截: 隐含 S={implied_s:.2f}B >= {self.cfg.MAX_ENTRY_IMPLIED_S_B}B, 只平不开"
+                            )
+                        time.sleep(1.0)
+                        continue
                     can_open, dynamic_sz, reason = self.calculate_adaptive_clip(hl_ask)
                     if can_open:
                         logger.info(f"🎯 开仓门禁满足！净利差: {open_spread_bps:+.1f} bps >= {self.cfg.ENTRY_SPREAD_BPS} bps | {reason}")
